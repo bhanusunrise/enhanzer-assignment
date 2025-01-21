@@ -37,6 +37,9 @@ dependencies:
   cupertino_icons: ^1.0.2
   passwordfield: ^0.2.0
   http: ^1.2.0
+  sqflite: ^2.2.6
+  path: ^1.8.3
+
 
 dev_dependencies:
   flutter_test:
