@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:passwordfield/passwordfield.dart';
+import 'api_service.dart';
 
 void main() {
   runApp(const MyApp());
@@ -8,7 +9,6 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -31,6 +31,8 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -47,8 +49,8 @@ class _MyHomePageState extends State<MyHomePage> {
             const Center(
               child: Image(
                 image: AssetImage('assets/login/login.png'),
-                height: 200.0,
-                width: 200.0,
+                height: 150.0,
+                width: 150.0,
               ),
             ),
             const SizedBox(height: 16.0),
@@ -58,6 +60,7 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             const SizedBox(height: 8.0),
             TextFormField(
+              controller: _emailController,
               decoration: const InputDecoration(
                 border: OutlineInputBorder(),
                 hintText: 'someone@example.com',
@@ -70,6 +73,7 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             const SizedBox(height: 8.0),
             PasswordField(
+              controller: _passwordController,
               color: Colors.blue,
               passwordConstraint: r'.*[@$#.*].*',
               hintText: '********',
@@ -107,7 +111,12 @@ class _MyHomePageState extends State<MyHomePage> {
                       foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
                       backgroundColor: MaterialStateProperty.all<Color>(Colors.blue),
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      final email = _emailController.text;
+                      final password = _passwordController.text;
+
+                      ApiService().invokeApi(email, password);
+                    },
                     child: const Text('Login'),
                   ),
                 ),
@@ -120,13 +129,15 @@ class _MyHomePageState extends State<MyHomePage> {
                       foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
                       backgroundColor: MaterialStateProperty.all<Color>(Colors.grey),
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      _emailController.clear();
+                      _passwordController.clear();
+                    },
                     child: const Text('Reset'),
                   ),
                 ),
               ],
-            )
-
+            ),
           ],
         ),
       ),
