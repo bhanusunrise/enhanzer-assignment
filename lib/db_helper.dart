@@ -37,6 +37,8 @@ class DatabaseHelper {
     return await db.insert('users', user.toMap());
   }
 
+  /*
+
   Future<List<Map<String, dynamic>>> queryAllUsers() async {
     Database db = await instance.db;
     return await db.query('users');
@@ -51,5 +53,7 @@ class DatabaseHelper {
     Database db = await instance.db;
     return await db.delete('users', where: 'id = ?', whereArgs: [id]);
   }
+
+  */
 
 }
