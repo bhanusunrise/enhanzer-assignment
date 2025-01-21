@@ -1,3 +1,5 @@
+import 'package:pasindu_bhanuka/location.dart';
+import 'package:pasindu_bhanuka/permission.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 import 'user.dart';
@@ -22,38 +24,52 @@ class DatabaseHelper {
 
   Future _onCreate(Database db, int version) async {
     await db.execute('''
-      CREATE TABLE users (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        user_display_name VARCHAR,
-        user_email VARCHAR,
-        user_company_code VARCHAR,
-        user_employee_code VARCHAR
-      )
-    ''');
+    CREATE TABLE users (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      user_display_name TEXT,
+      user_email TEXT,
+      user_company_code TEXT,
+      user_employee_code TEXT
+    )
+  ''');
+
+    await db.execute('''
+    CREATE TABLE permissions (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      permission_name TEXT,
+      permission_status TEXT,
+      user_id INTEGER,
+      FOREIGN KEY (user_id) REFERENCES users (id)
+    )
+  ''');
+
+    await db.execute('''
+    CREATE TABLE locations (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      location_code TEXT,
+      user_id INTEGER,
+      FOREIGN KEY (user_id) REFERENCES users (id)
+    )
+  ''');
   }
+
+
+
 
   Future<int> insertUser(User user) async {
     Database db = await instance.db;
     return await db.insert('users', user.toMap());
   }
 
-  /*
-
-  Future<List<Map<String, dynamic>>> queryAllUsers() async {
+  Future<int> insertPermission(Permission permission) async {
     Database db = await instance.db;
-    return await db.query('users');
+    return await db.insert('permissions', permission.toMap());
   }
 
-  Future<int> updateUser(User user) async {
+  Future<int> insertLocation(Location location) async {
     Database db = await instance.db;
-    return await db.update('users', user.toMap(), where: 'id = ?', whereArgs: [user.id]);
+    return await db.insert('locations', location.toMap());
   }
 
-  Future<int> deleteUser(int id) async {
-    Database db = await instance.db;
-    return await db.delete('users', where: 'id = ?', whereArgs: [id]);
-  }
-
-  */
 
 }
