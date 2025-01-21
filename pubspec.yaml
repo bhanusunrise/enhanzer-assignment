@@ -38,6 +38,7 @@ dependencies:
   passwordfield: ^0.2.0
   http: ^1.2.0
   sqflite: ^2.2.6
+  sqflite_common_ffi: ^2.3.2+1
   path: ^1.8.3
 
 

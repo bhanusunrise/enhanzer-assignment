@@ -17,7 +17,7 @@ class DatabaseHelper {
 
   Future<Database> initDb() async {
     String databasesPath = await getDatabasesPath();
-    String path = join(databasesPath, 'pasindu.db');
+    String path = join(databasesPath, 'user_data');
 
     return await openDatabase(path, version: 1, onCreate: _onCreate);
   }

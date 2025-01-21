@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:passwordfield/passwordfield.dart';
 import 'api_service.dart';
+import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
 void main() {
+  // Initialize databaseFactory for sqflite_common_ffi
+  sqfliteFfiInit();
+  databaseFactory = databaseFactoryFfi;
   runApp(const MyApp());
 }
 
@@ -111,12 +115,12 @@ class _MyHomePageState extends State<MyHomePage> {
                       foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
                       backgroundColor: MaterialStateProperty.all<Color>(Colors.blue),
                     ),
-                    onPressed: () {
+                    onPressed: () async {
                       final email = _emailController.text;
                       final password = _passwordController.text;
-
-                      ApiService().invokeApi(email, password);
+                      await ApiService().invokeApi(email, password);
                     },
+
                     child: const Text('Login'),
                   ),
                 ),
