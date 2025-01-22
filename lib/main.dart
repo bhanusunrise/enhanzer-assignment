@@ -5,7 +5,6 @@ import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 import 'api_service.dart';
 
 void main() async {
-  // Initialize databaseFactory for sqflite_common_ffi
   sqfliteFfiInit();
   databaseFactory = databaseFactoryFfi;
   runApp(const MyApp());
