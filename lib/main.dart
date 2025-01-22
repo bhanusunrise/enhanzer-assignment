@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:pasindu_bhanuka/db_helper.dart';
 import 'package:passwordfield/passwordfield.dart';
-import 'api_service.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
+import 'api_service.dart';
 
-void main() {
+void main() async {
   // Initialize databaseFactory for sqflite_common_ffi
   sqfliteFfiInit();
   databaseFactory = databaseFactoryFfi;
@@ -118,9 +119,16 @@ class _MyHomePageState extends State<MyHomePage> {
                     onPressed: () async {
                       final email = _emailController.text;
                       final password = _passwordController.text;
-                      await ApiService().invokeApi(email, password);
-                    },
 
+                      // Call the API service
+                      await ApiService().invokeApi(email, password);
+
+                      // Fetch data from the database
+                      final List<Map<String, dynamic>> data = await DatabaseHelper.instance.fetchData();
+
+                      // Print or use the fetched data as needed
+                      print('Fetched Data: $data');
+                    },
                     child: const Text('Login'),
                   ),
                 ),

@@ -1,3 +1,4 @@
+import 'package:pasindu_bhanuka/data.dart';
 import 'package:pasindu_bhanuka/location.dart';
 import 'package:pasindu_bhanuka/permission.dart';
 import 'package:path/path.dart';
@@ -70,6 +71,25 @@ class DatabaseHelper {
     Database db = await instance.db;
     return await db.insert('locations', location.toMap());
   }
+
+  Future<List<Map<String, dynamic>>> fetchData() async {
+    Database db = await instance.db;
+    final String sql = '''
+    SELECT 
+      u.id AS user_id, 
+      u.user_display_name AS username, 
+      p.permission_name, 
+      l.location_code AS location_name
+    FROM 
+      users u
+    LEFT JOIN 
+      permissions p ON u.id = p.user_id
+    LEFT JOIN 
+      locations l ON u.id = l.user_id
+  ''';
+    return await db.rawQuery(sql);
+  }
+
 
 
 }
